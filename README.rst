@@ -23,6 +23,15 @@ Documentation
 Changelog
 =========
 
+1.0.0
+-----
+
+**Changes**
+
+- Allow platform to receive options, so it is compatible with the new Topology
+  1.10.0 "options" feature. [David Diaz]
+
+
 0.4.0
 -----
 
