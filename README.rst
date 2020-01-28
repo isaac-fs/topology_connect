@@ -3,8 +3,8 @@ Topology Connect
 ================
 
 Topology Connect its a plugin (called a Platform Engine) for the Topology
-Modular Framework that allows to connect to and interact with an existing
-physical topology using SSH or Telnet.
+Framework that allows to connect to and interact with an existing physical
+topology using SSH or Telnet.
 
 This is particularly useful to perform tests on small, hardwired, already-built
 topologies inside a lab.
@@ -17,7 +17,7 @@ file itself (SZN file).
 Documentation
 =============
 
-    http://topology.readthedocs.io/
+    https://topology.readthedocs.io/
 
 
 Changelog
