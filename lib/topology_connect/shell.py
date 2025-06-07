@@ -74,7 +74,7 @@ class SshMixin(object):
         self._username = kwargs.pop('user', None)
         self._hostname = kwargs.pop('hostname', '127.0.0.1')
         self._port = kwargs.pop('port', 22)
-        self._options = kwargs.pop('options', ('BatchMode=yes', ))
+        self._options = kwargs.pop('options', None)
         self._identity_file = kwargs.pop('identity_file', 'id_rsa')
 
         # Use current user if not specified

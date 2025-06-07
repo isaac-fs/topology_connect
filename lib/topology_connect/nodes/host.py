@@ -35,22 +35,40 @@ class HostNode(CommonConnectNode):
     """
     FIXME: Document.
     """
+
     def __init__(
-            self, identifier,
-            identity_file='id_rsa',
-            user=None,
-            port=22,
-            **kwargs):
+        self,
+        identifier,
+        identity_file="id_rsa",
+        options=None,
+        user=None,
+        password=None,
+        port=22,
+        **kwargs,
+    ):
+        if identity_file and password:
+            raise Exception("Cannot use both identity_file and password options")
+
+        if options is None:
+            options = ()
+
+        if password:
+            options = options + ("BatchMode=no",)
+        else:
+            options = options + ("BatchMode=yes",)
 
         super(HostNode, self).__init__(identifier, **kwargs)
         self._register_shell(
-            'bash',
+            "bash",
             SshBashShell(
+                initial_prompt=[r"\w+@.+:.+[#$] ", r"bash-.+[#$] ", r"\w+:.*[#$] "],
                 hostname=self._fqdn,
                 identity_file=identity_file,
+                options=options,
                 user=user,
+                password=password,
                 port=port,
-            )
+            ),
         )
 
 
@@ -58,31 +76,43 @@ class UncheckedHostNode(CommonConnectNode):
     """
     FIXME: Document.
     """
+
     def __init__(
-            self, identifier,
-            identity_file=None,
-            port=22,
-            user=None,
-            password=None,
-            **kwargs):
+        self,
+        identifier,
+        identity_file=None,
+        options=None,
+        port=22,
+        user=None,
+        password=None,
+        **kwargs,
+    ):
+        if identity_file and password:
+            raise Exception("Cannot use both identity_file and password options")
+
+        if options is None:
+            options = ("StrictHostKeyChecking=no", "UserKnownHostsFile=/dev/null")
+        else:
+            options = options + ("StrictHostKeyChecking=no", "UserKnownHostsFile=none")
+
+        if password:
+            options = options + ("BatchMode=no",)
+        else:
+            options = options + ("BatchMode=yes",)
 
         super(UncheckedHostNode, self).__init__(identifier, **kwargs)
         self._register_shell(
-            'bash',
+            "bash",
             SshBashShell(
-                initial_prompt = [
-                    r'\w+@.+:.+[#$] ',
-                    r'bash-.+[#$] ',
-                    r'\w+:.*[#$] '
-                ],
+                initial_prompt=[r"\w+@.+:.+[#$] ", r"bash-.+[#$] ", r"\w+:.*[#$] "],
                 hostname=self._fqdn,
                 identity_file=identity_file,
-                options=('StrictHostKeyChecking=no', 'UserKnownHostsFile=/dev/null' ),
+                options=options,
                 user=user,
                 password=password,
                 port=port,
-            )
+            ),
         )
 
 
-__all__ = ['HostNode', 'UncheckedHostNode']
+__all__ = ["HostNode", "UncheckedHostNode"]
